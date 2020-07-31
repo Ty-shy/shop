@@ -59,7 +59,6 @@ export default {
       requestManageDelete({ uid: uid }).then((res) => {
         if (res.data.code === 200) {
           successAlert(res.data.msg);
-
           this.requestList();
         } else {
           warningAlert(res.data.msg);

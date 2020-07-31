@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-button type="primary" @click="add">添加</el-button>
-    <v-list></v-list>
-    <v-add :info="info" ></v-add>
+    <v-add :info="info" ref="add"></v-add>
+    <v-list @edit="edit"></v-list>
   </div>
 </template>
 
@@ -25,13 +25,19 @@ export default {
     };
   },
   //   !!!!!!!!! 方法 !!!!!!!!!!!
-  methods:{
-      add(){
-          this.info.show=true;
-          this.info.title="规格添加";
-          this.info.isAdd=true;
-      }
-  }
+  methods: {
+    add() {
+      this.info.show = true;
+      this.info.title = "规格添加";
+      this.info.isAdd = true;
+    },
+    edit(id) {
+      this.info.show = true;
+      this.info.title = "规格编辑";
+      this.info.isAdd = false;
+      this.$refs.add.getDetail(id);
+    },
+  },
 };
 </script>
 

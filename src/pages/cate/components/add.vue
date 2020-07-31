@@ -74,7 +74,6 @@ export default {
     }),
     // ============ 图片 ===========
     changeImg(e) {
-      console.log(e);
       //控制图片的大小
       if (e.size > 2 * 1024 * 1024) {
         warningAlert("上传的图片不能超过2M");

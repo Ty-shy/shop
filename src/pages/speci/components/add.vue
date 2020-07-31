@@ -28,7 +28,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cencel">取 消</el-button>
-        <el-button type="primary" @click="add">确 定</el-button>
+        <el-button type="primary" @click="add" v-if="info.isAdd">添 加</el-button>
+        <el-button type="primary" @click="updata" v-else>修改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -37,7 +38,11 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { warningAlert, successAlert } from "../../../util/alert";
-import { requestSpecsAdd } from "../../../util/request";
+import {
+  requestSpecsAdd,
+  requestSpecsInfo,
+  requestSpecsEdit,
+} from "../../../util/request";
 export default {
   props: ["info"],
   // 计算属性
@@ -75,33 +80,60 @@ export default {
     delrow(index) {
       this.array.splice(index, 1);
     },
-
-    // 取消
-    cencel(){
-      this.info.show=false;
-      if(!this.info.isAdd){
-        this.empty()
-      }
-    },
-    //重置
+     //重置
     empty() {
       this.form = {
         specsname: "",
         attrs: "",
         status: 1,
       };
+      this.array=[]
     },
+    // 取消
+    cencel() {
+      this.info.show = false;
+
+      if (!this.info.isAdd) {
+        this.empty();
+      }
+    },
+
     // 添加规格属性
     add() {
-      console.log(this.array); 
+      console.log(this.array);
       this.form.attrs = JSON.stringify(this.array);
       requestSpecsAdd(this.form).then((res) => {
         if (res.data.code === 200) {
           successAlert(res.data.msg);
           this.empty();
           this.cencel();
-          this.requestSpeciList()
-        }else{
+          this.requestSpeciList();
+        } else {
+          warningAlert(res.data.msg);
+        }
+      });
+    },
+    // 编辑
+    getDetail(id) {
+      requestSpecsInfo({ id: id }).then((res) => {
+        if (res.data.code === 200) {
+          this.form = res.data.list[0];
+          this.array = JSON.parse(this.form.attrs);
+        } else {
+          warningAlert("获取数据失败");
+        }
+      });
+    },
+    // 修改
+    updata() {
+      this.form.attrs = JSON.stringify(this.array);
+      requestSpecsEdit(this.form).then((res) => {
+        if (res.data.code === 200) {
+          successAlert(res.data.msg);
+          this.empty();
+          this.cencel();
+          this.requestSpeciList();
+        } else {
           warningAlert(res.data.msg);
         }
       });
