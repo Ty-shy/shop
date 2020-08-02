@@ -1,8 +1,8 @@
 {
-  "name": "umall_admin",
+  "name": "usmall_admin",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "liurui <976203532@qq.com>",
+  "author": "",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -11,10 +11,11 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "echarts": "^4.8.0",
     "element-ui": "^2.13.2",
     "qs": "^6.9.4",
-    "stylus": "0.54.8",
-    "stylus-loader": "3.0.2",
+    "stylus": "^0.54.8",
+    "stylus-loader": "^3.0.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.5.1",

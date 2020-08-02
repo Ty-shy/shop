@@ -1,4 +1,4 @@
 import delBtn from "./delBtn.vue"
-export default{
+export default {
     delBtn
 }

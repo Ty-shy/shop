@@ -1,9 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import store from "../store/index"
 Vue.use(Router)
 
-export default new Router({
+// 路由独享
+function havePower(url){
+  return store.state.user.menus_url.some(i=>i==url)
+}
+
+let router=new Router({
   routes: [
     {
       path:"/login",
@@ -14,60 +19,107 @@ export default new Router({
       component:()=>import("../pages/index/index.vue"),
       children:[
         {
-          path:'home',
+          path:"home",
           component:()=>import("../pages/home/home.vue"),
-          name:'首页'
+          name:"首页"
         },
         {
-          path:'menu',
+          path:"menu",
           component:()=>import("../pages/menu/menu.vue"),
-          name:'菜单列表'
+          name:"菜单列表",
+          beforeEnter(to,from,next){
+            havePower('/menu')?next():next("/home")
+          }
         },
         {
-          path:'role',
+          path:"role",
           component:()=>import("../pages/role/role.vue"),
-          name:'角色列表'
+          name:"角色列表",
+          beforeEnter(to,from,next){
+            havePower('/role')?next():next("/home")
+          }
         },
         {
-          path:'manage',
+          path:"manage",
           component:()=>import("../pages/manage/manage.vue"),
-          name:'管理员列表'
+          name:"管理员列表",
+          beforeEnter(to,from,next){
+            havePower('/manage')?next():next("/home")
+          }
         },
         {
-          path:'cate',
+          path:"cate",
           component:()=>import("../pages/cate/cate.vue"),
-          name:'商品分类列表'
+          name:"商品分类列表",
+          beforeEnter(to,from,next){
+            havePower('/cate')?next():next("/home")
+          }
         },
         {
-          path:'speci',
+          path:"speci",
           component:()=>import("../pages/speci/speci.vue"),
-          name:'商品规格列表'
+          name:"商品规格列表",
+          beforeEnter(to,from,next){
+            havePower('/speci')?next():next("/speci")
+          }
         },
         {
-          path:'goods',
+          path:"goods",
           component:()=>import("../pages/goods/goods.vue"),
-          name:"商品列表"
+          name:"商品列表",
+          beforeEnter(to,from,next){
+            havePower('/goods')?next():next("/home")
+          }
         },
         {
-          path:'member',
+          path:"member",
           component:()=>import("../pages/member/member.vue"),
-          name:'会员列表'
+          name:"会员列表",
+          beforeEnter(to,from,next){
+            havePower('/member')?next():next("/home")
+          }
         },
         {
-          path:'banner',
+          path:"banner",
           component:()=>import("../pages/banner/banner.vue"),
-          name:'轮播图列表'
+          name:"轮播图列表",
+          beforeEnter(to,from,next){
+            havePower('/banner')?next():next("/home")
+          }
         },
         {
-          path:'seckill',
+          path:"seckill",
           component:()=>import("../pages/seckill/seckill.vue"),
-          name:'秒杀列表'
+          name:"秒杀列表",
+          beforeEnter(to,from,next){
+            havePower('/seckill')?next():next("/home")
+          }
         },
         {
-          path:'',
-          redirect:'home',
-        },
-      ],
+          path:"",
+          redirect:"home"
+        }
+      ]
     },
   ]
 })
+
+//登录拦截
+router.beforeEach((to,from,next)=>{
+  //如果前往登录页面，next()
+  if(to.path==="/login"){
+    next()
+    return;
+  }
+  //如果去的不是登录，就要判断store.user. user是true,next();user-null,next('/login')
+  if(store.state.user){
+    next();
+    return;
+  }
+  next("/login")
+})
+
+
+
+
+export default router

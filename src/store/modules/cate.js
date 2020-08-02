@@ -1,32 +1,28 @@
-import {
-  requestCateList
-} from "../../util/request"
-
-const state = {
-  list: [],
+import {requestCateList} from "../../util/request"
+const state={
+    //列表数据
+    list:[]
 }
-
-const mutations = {
-  changeList(state, arr) {
-    state.list = arr;
-  }
+const mutations={
+    //修改list
+    changeList(state,arr){
+        state.list=arr;
+    }
 }
-
-const actions = {      
-  requestList(context) {
-    requestCateList({istree: true}).then(res => {
-      context.commit('changeList', res.data.list) 
-    })
-  }
+const actions={
+    requestList(context){
+        
+        requestCateList({istree:true}).then(res=>{
+            context.commit("changeList",res.data.list)
+        })
+    }
 }
-
-const getters = {
-  list(state) {
-    return state.list
-  }
+const getters={
+    list(state){
+        return state.list
+    }
 }
-
-export default{
+export default {
     state,
     mutations,
     actions,

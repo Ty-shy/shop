@@ -130,7 +130,7 @@ export default {
           successAlert(res.data.msg);
           this.empty();
           this.cencel();
-          this.requestRoleList();
+          this.requestList();
         } else {
           warningAlert(res.data.msg);
         }

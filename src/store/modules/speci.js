@@ -22,11 +22,20 @@ const mutations ={
 }
 
 const actions = {
-    requestList(context){
+    requestList(context,bool){
+        var params = {}
+        if(bool){
+            params={}
+        }else{
+            params = {
+                page: context.state.page,
+                size: context.state.size
+            }
+        }
         requestSpecsCount().then(res=>{
             context.commit('changeTotal',res.data.list[0].total)
         })
-        requestSpecsList({page:context.state.page,size:3}).then(res=>{
+        requestSpecsList(params).then(res=>{
             if(res.data.list.length==0&&context.state.page>1){
                 context.commit("changePage",context.state.page-1);
                 context.dispatch('requestList');

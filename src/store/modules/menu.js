@@ -1,16 +1,17 @@
-import { requestMenuList } from "../../util/request";
+import {requestMenuList} from "../../util/request"
 const state={
     //列表数据
     list:[]
 }
 const mutations={
-    //修改
+    //修改list
     changeList(state,arr){
         state.list=arr;
     }
 }
 const actions={
     requestList(context){
+        
         requestMenuList({istree:true}).then(res=>{
             context.commit("changeList",res.data.list)
         })
@@ -21,8 +22,7 @@ const getters={
         return state.list
     }
 }
-
-export default{
+export default {
     state,
     mutations,
     actions,

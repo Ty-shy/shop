@@ -1,4 +1,4 @@
-# umall_admin
+# usmall_admin
 
 > A Vue.js project
 
